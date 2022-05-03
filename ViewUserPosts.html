@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Exercise 6: View User Posts</title>
+</head>
+<body>
+
+<h1>View User Posts</h1>
+
+<p>Select the user to view posts.</p>
+
+<form action="./ViewUserPosts.php" method="post" >
+  <label for="lblUser">Choose the User:</label>
+  <select name="userID" id="userID">
+    <?php
+    $user='a622d311';
+    $pass='Aiboox4z';
+    $db='a622d311';
+    $DbServerURL='mysql.eecs.ku.edu'; //129.237.87.5
+    
+    $mysqli = new mysqli($DbServerURL,$user,$pass,$db);
+    //$db=new mysqli($DbServerURL,$user,$pass,$db) or die("Unable to connect");
+    /* check connection */
+    if ($mysqli->connect_errno) 
+    {
+        printf("Connect failed: %s\n", $mysqli->connect_error);
+        exit();
+    }
+    
+    //get the list of all existing users buy using select query
+    $query = "SELECT user_id FROM Users";
+    //echo "query =".$query."\n";
+    $result = $mysqli->query($query);
+    $opt="";
+    
+    
+    if ($result->num_rows > 0) 
+    {
+        printf (" The number of the users in the database: %d.\n\n", $result->num_rows);
+        // output data of each row
+        while($row = $result->fetch_assoc()) 
+        {
+            
+            $opt=$opt."<option value='".$row['user_id']."''>".$row['user_id']."</option>";
+        }
+    }
+    else
+    {
+        printf ("no user Ids in the database.\n");
+    }
+    
+    echo $opt;
+    
+    /* close connection */
+    $mysqli->close();
+    
+    ?>      
+  </select>
+  <br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<p>Click the "Submit" button to view all posts of the selected user".</p>
+<br>
+<a href='./AdminHome.html'>Admin Home.</a><br>
+</body>
+</html>

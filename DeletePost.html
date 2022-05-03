@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Exercise 7: Delete Posts</title>
+</head>
+<body>
+
+<h1>Delete Posts</h1>
+
+<p>View posts, Delete posts.</p>
+
+<form action="./DeletePost.php" method="post" >
+
+    <?php
+    $user='a622d311';
+    $pass='Aiboox4z';
+    $db='a622d311';
+    $DbServerURL='mysql.eecs.ku.edu'; //129.237.87.5
+    
+    $mysqli = new mysqli($DbServerURL,$user,$pass,$db);
+    /* check connection */
+    if ($mysqli->connect_errno) 
+    {
+        printf("Connect failed: %s\n", $mysqli->connect_error);
+        exit();
+    }
+    
+    $query = "SELECT post_id,content,author_id FROM Posts";
+    //echo "query =".$query."\n";
+    $result = $mysqli->query($query);
+    $tbl="<table  style='display:true' border='1' ><tbody><tr><td><b>Posts</b></td><td><b>Authors</b></td><td><b>Delete</b></td></tr>";
+    
+    
+    
+    if ($result->num_rows > 0) 
+    {
+        printf (" The number of the posts for all users in the database: %d.\n\n", $result->num_rows);
+        // output data of each row
+        while($row = $result->fetch_assoc()) 
+        {
+            //$tbl=$tbl."<tr><td>".$row['post_id']."</td><td>".$row['content']."</td></tr>";
+            $tbl=$tbl."<tr><td>".$row['content']."</td><td>".$row['author_id'].
+            "</td><td><input type='checkbox' id='chkPostId[]' name='chkPostId[]' value='".$row['post_id']."'></td></tr>";
+        }
+    }
+    else
+    {
+        printf ("no post for the user in the database.\n");
+    }
+    $tbl=$tbl."</tbody></table>";
+    echo $tbl;
+    
+    /* close connection */
+    $mysqli->close();
+    
+    ?>  
+  <br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<p>Click the "Submit" button to view all posts of the selected user".</p>
+<br>
+<a href='./AdminHome.html'>Admin Home.</a><br>
+</body>
+</html>

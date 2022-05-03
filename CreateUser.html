@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Exercise 2: Create User Interface</title>
+</head>
+<body>
+
+<h1>Create User Interface</h1>
+
+<form action="./CreateUser.php" method="post" onsubmit="return FormCheckerFunction()">
+  <label for="fUid">Create a new user (Id):</label>
+  <input type="text" id="userID" name="userID"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<p>Please enter unique Id to create a new user and Click on the submit button.</p>
+
+<script>
+function FormCheckerFunction() 
+{
+    //check for user Id cannot be blank
+    let msg="";
+    var userID= document.getElementById("userID").value;
+    if(userID=="")
+    {
+        msg=msg+" please enter User Id. \n";
+    }
+    if(msg!="")
+    {
+        alert(msg);
+        return false; // don't submit the form
+    }
+    else
+    {
+        return true; // submit the form
+    }
+}
+</script>
+
+</body>
+</html>
